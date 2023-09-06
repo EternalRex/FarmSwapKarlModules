@@ -1,12 +1,23 @@
 import "package:farm_swap_karl/colors/colors.dart";
-import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_editAdminProfile_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_admin_account_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_communications_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_dashboard_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_dispute_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_listings_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_logout_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_options_header_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_edit_admin_profile_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_recentActivities_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_reports_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_transactions_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_user_account_btn.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/dashboard_buttons/dashboard_wallet_btn.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_barter_bargraph.dart';
 import "package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_linegraph.dart";
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_piegraph.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_search.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_selling_bargraph.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_txt.dart';
-import "package:farm_swap_karl/routes/routes.dart";
 import 'package:farm_swap_karl/testData/DashboardLineGraph/pricePoint.dart';
 import 'package:farm_swap_karl/testData/DashboardLineGraph/pricePoint2.dart';
 import 'package:farm_swap_karl/testData/DashboardLineGraph/pricePoint3.dart';
@@ -51,312 +62,70 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
                 /*A COLUMN THAT WILL HOLD THE NAVIGATIONS OPTIONS */
-                child: Column(
+                child: const Column(
                   children: [
-                    /*A ROW THAT HOLDS THE LOGO , THE FARMSWAP TITLE AND THE 
-                    DESCRIPTION */
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Image(
-                          image: AssetImage("assets/images/logo3.png"),
-                          width: 55,
-                          height: 50,
-                        ),
-                        /*A COLUMN THAT IS PART OF THE ROW CHILDREN, HOLDS THE TITLE
-                        AND THE DESCRIPTION, THIS IS DONE SO THAT I CAN PUT THE DESCRIPTION
-                        UNDER THE TITLE BECAUSE IF I ONLY USE THE ROW, IT WILL DISPLAY THE 
-                        DESCRIPTION NEXT TO THE TITLE AND NOT BELOW IT */
-                        Column(
-                          children: [
-                            /*THE FARMSWAP TITLE */
-                            Text(
-                              "FarmSwap",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: farmSwapTitlegreen,
-                                fontFamily: GoogleFonts.viga().fontFamily,
-                              ),
-                            ),
-                            /*THE FARMSWAP DESCRIPTION */
-                            Text(
-                              "Modern Barter Solution",
-                              style: TextStyle(
-                                fontFamily: GoogleFonts.inter().fontFamily,
-                                fontSize: 8,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
+                    /*THE TITLE AND LOGO IN THE PAGE OPTIONS */
+                    DashPageOptionsTitle(),
+                    /*30 PXLS SPACE BETWEEN*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL HOLD THE DASHBOARD LOGO AND THE DASHBOARD LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/dashboard.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Dashboard",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashBoardOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE  ADMIN ACCOUNT LOGO AND LABEL*/
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/adminAcc.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Admin Account",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashAdminAccountOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE USER ACCOUNTS LOGO AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/userAccounts.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "User Account",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashUserAccountOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE LISTINGS ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/listings.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Listings",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashListingsOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE TRANSACTIONS ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/transactions.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Transactions",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashTransactionsOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE REPORTS ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/reports.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Reports",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashReportsOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE DISPUTE ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/dispute.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Dispute",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashDisputeOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE WALLET ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/wallet.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Wallet",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashWalletOptions(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE COMMUNICATIONS ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/communications.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: DashBoardTxt(
-                              myText: "Communication",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
+                    DashCommunicationOptionsBtn(),
+                    /*30 SPACE BEFORE NEXT OPTION*/
+                    SizedBox(
                       height: 40,
                     ),
                     /*THIS ROW WILL CONTAIN THE lOGOUT ICON AND LABEL */
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/logout.png",
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(RoutesManager.introPage);
-                            },
-                            child: DashBoardTxt(
-                              myText: "Logout",
-                              myColor: Colors.black,
-                              mySize: 13,
-                              myFont: GoogleFonts.poppins().fontFamily,
-                              myWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    DashLogoutOptionBtn(),
                   ],
                 ),
               ),
@@ -449,7 +218,7 @@ class _DashboardState extends State<Dashboard> {
                                       myFont: GoogleFonts.viga().fontFamily,
                                       myWeight: FontWeight.bold),
                                   Container(
-                                    width: 380,
+                                    width: 425,
                                     height: 300,
                                     decoration: const BoxDecoration(boxShadow: [
                                       BoxShadow(
@@ -483,7 +252,7 @@ class _DashboardState extends State<Dashboard> {
                                       myFont: GoogleFonts.viga().fontFamily,
                                       myWeight: FontWeight.bold),
                                   Container(
-                                    width: 380,
+                                    width: 425,
                                     height: 300,
                                     decoration: const BoxDecoration(boxShadow: [
                                       BoxShadow(
@@ -518,7 +287,7 @@ class _DashboardState extends State<Dashboard> {
                                       myFont: GoogleFonts.viga().fontFamily,
                                       myWeight: FontWeight.bold),
                                   Container(
-                                    width: 380,
+                                    width: 425,
                                     height: 300,
                                     decoration: const BoxDecoration(boxShadow: [
                                       BoxShadow(
@@ -548,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
                                       myFont: GoogleFonts.viga().fontFamily,
                                       myWeight: FontWeight.bold),
                                   Container(
-                                    width: 380,
+                                    width: 425,
                                     height: 300,
                                     decoration: const BoxDecoration(boxShadow: [
                                       BoxShadow(
@@ -612,7 +381,7 @@ class _DashboardState extends State<Dashboard> {
                             myWeight: FontWeight.bold,
                           ),
                           const SizedBox(
-                            width: 40,
+                            width: 36,
                           ),
                           /*MESSAGE BUTTON */
                           IconButton(
@@ -646,8 +415,7 @@ class _DashboardState extends State<Dashboard> {
                             const CircleAvatar(
                               radius: 60,
                               backgroundImage: NetworkImage(
-                                "https://images.pexels.com/photos/3764119/pexels-photo-3764119.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-                              ),
+                                  "https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
                             ),
                             /*POSITIONING THE ADD PHOTO ICON INSIDE THE STACK */
                             Positioned(
@@ -687,7 +455,12 @@ class _DashboardState extends State<Dashboard> {
                       height: 30,
                     ),
                     /*EDIT PROFILE BUTTON */
-                    const FarmSwapGreenBtn(),
+                    const AdminEditProfileBtn(),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    /*ADMIN RECENT ACTIVITIES BUTTON */
+                    const AdminRecentActivitiesBtn(),
                   ],
                 ),
               ),

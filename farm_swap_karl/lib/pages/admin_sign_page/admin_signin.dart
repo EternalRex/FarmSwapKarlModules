@@ -194,18 +194,39 @@ class _SignInAdminState extends State<SignInAdmin> {
                   height: 30,
                 ),
                 /*TEXT  */
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Forget Your Password?",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      color: farmSwapTitlegreen,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forget Your Password?",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                          color: farmSwapTitlegreen,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Sign Up Now!",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                          color: farmSwapTitlegreen,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 30,
@@ -219,13 +240,12 @@ class _SignInAdminState extends State<SignInAdmin> {
                         height: 50,
                         width: 141,
                         decoration: BoxDecoration(
-                          color: Colors.green,
-                          /*gradient: LinearGradient(
+                          gradient: LinearGradient(
                             colors: [Colors.white, farmSwapTitlegreen],
                             begin: Alignment.center,
                             end: Alignment.center,
                             stops: const [0.12, 0.25],
-                          ),*/
+                          ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
