@@ -1,4 +1,5 @@
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard_widgets.dart/widget_dashboard_txt.dart';
+import 'package:farm_swap_karl/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +18,9 @@ class DashBoardOptionsBtn extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(RoutesManager.dashboard);
+            },
             child: DashBoardTxt(
               myText: "Dashboard",
               myColor: Colors.black,

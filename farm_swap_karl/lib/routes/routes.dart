@@ -1,3 +1,4 @@
+import 'package:farm_swap_karl/pages/admin_account_page/admin_account.dart';
 import 'package:farm_swap_karl/pages/admin_sign_page/admin_signin.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/dashboard.dart';
 import 'package:farm_swap_karl/pages/intro_page/intro_page.dart';
@@ -8,6 +9,7 @@ class RoutesManager {
   static const introPage = "/";
   static const signInPage = "/signinpage";
   static const dashboard = "/dashboard";
+  static const adminAccount = "/adminaccount";
 
 //METHOD THAT WILL SWITCH THE ROUTE BASED ON THE PROVIDED ROUTENAME
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,6 +30,11 @@ class RoutesManager {
       case dashboard:
         return MaterialPageRoute(
           builder: (context) => const Dashboard(),
+        );
+
+      case adminAccount:
+        return MaterialPageRoute(
+          builder: (context) => const AdminAccount(),
         );
 
       default:
