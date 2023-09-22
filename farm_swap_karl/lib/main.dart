@@ -4,9 +4,26 @@ import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 
 Future main() async {
+  //ENSURE THAT ASSYNCHRONOUS TASKS ARE BEING INITIALIZED
   WidgetsFlutterBinding.ensureInitialized;
-  if(kIsWeb) => await Firebase.initializeApp(options: FirebaseOptions(apiKey: apiKey, appId: appId, messagingSenderId: messagingSenderId, projectId: projectId,),);
-  await Firebase.initializeApp();
+
+  /*A CONDITION THAT CHECKS IF THE APP IS RUNNING ON A WEB PLATFORM
+  IF IT IS, THEN THIS WILL INITIALIZE THE FIREBASE FIRESTORE DATABASE
+  */
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyDbZpBhzByJp9w4xIXHhwsxSLXCvDTpQAI",
+        appId: "1:69776895929:web:036ee729e2199f1a3c5068",
+        messagingSenderId: "69776895929",
+        projectId: "farmswapsample",
+      ),
+    );
+  }
+
+//INITIALIZE THE PLATFORM TO USE THE FIREBASE
+await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
