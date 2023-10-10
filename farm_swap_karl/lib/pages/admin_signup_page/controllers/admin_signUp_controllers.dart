@@ -5,5 +5,13 @@ class SignupControllers {
   TextEditingController passwordController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
-  TextEditingController sexTypeController = TextEditingController();
+  TextEditingController birthdateController = TextEditingController();
+  TextEditingController birthplaceController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController contactnumController = TextEditingController();
+  TextEditingController useridController = TextEditingController();
+  TextEditingController userRole = TextEditingController();
+  TextEditingController registerDate = TextEditingController();
+  TextEditingController profileUrl = TextEditingController();
+  TextEditingController idUrl = TextEditingController();
 }

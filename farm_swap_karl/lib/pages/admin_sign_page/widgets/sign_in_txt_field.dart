@@ -3,14 +3,19 @@ import "package:google_fonts/google_fonts.dart";
 
 class SignInTxtField extends StatelessWidget {
   const SignInTxtField(
-      {super.key, required this.label, required this.textType});
+      {super.key,
+      required this.controller,
+      required this.label,
+      required this.textType});
 
   final Widget label;
   final bool textType;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       obscureText: textType,
       decoration: InputDecoration(
         filled: true,

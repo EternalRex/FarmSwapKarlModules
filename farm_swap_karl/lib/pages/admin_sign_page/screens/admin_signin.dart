@@ -1,6 +1,10 @@
+import "package:farm_swap_karl/authentication/firebase_auth_services.dart";
 import "package:farm_swap_karl/colors/colors.dart";
+import "package:farm_swap_karl/pages/admin_sign_page/controllers/signin_controllers.dart";
 import 'package:farm_swap_karl/pages/admin_sign_page/widgets/sign_in_txt_field.dart';
+import "package:farm_swap_karl/pages/dashboard_page/data/retrieve_id.dart";
 import "package:farm_swap_karl/routes/routes.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -20,6 +24,12 @@ class _SignInAdminState extends State<SignInAdmin> {
   Widget emailLabel = const Text("Email");
   Widget passwordLabel = const Text("Password");
   TextInputType textType = TextInputType.text;
+
+  //Object of the controller class
+  SigninControllers myController = SigninControllers();
+
+  //Object of the authentication class
+  AdminFirebaseAuthentication adminAuth = AdminFirebaseAuthentication();
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +105,7 @@ class _SignInAdminState extends State<SignInAdmin> {
                   /*HAS A LABEL PROPERTY FOR EMAIL THAT WILL TAKE VALUE FROM THE WIDGET
                   VARIABLES I SET ABOVE, THAT LABEL PROPERTY IS SET FROM THE SING_IN_TEXT_FIELD CLASS*/
                   child: SignInTxtField(
+                    controller: myController.emailController,
                     textType: false,
                     label: emailLabel,
                   ),
@@ -109,6 +120,7 @@ class _SignInAdminState extends State<SignInAdmin> {
                   /*HAS A LABEL PROPERTY FOR PASSWORD THAT WILL TAKE VALUE FROM THE WIDGET
                   VARIABLES I SET ABOVE, THAT LABEL PROPERTY IS SET FROM THE SING_IN_TEXT_FIELD CLASS*/
                   child: SignInTxtField(
+                    controller: myController.passwordController,
                     textType: true,
                     label: passwordLabel,
                   ),
@@ -263,9 +275,8 @@ class _SignInAdminState extends State<SignInAdmin> {
                         child: Center(
                           child: TextButton(
                             onPressed: () {
-                              /*PUSHES A ROUTENAME INTO THE ROUTEMANAGER.GENERATE ROUTE */
-                              Navigator.of(context)
-                                  .pushNamed(RoutesManager.dashboard);
+                              //Calling the signin function
+                              signin();
                             },
                             child: Text(
                               "Login",
@@ -288,5 +299,18 @@ class _SignInAdminState extends State<SignInAdmin> {
         ],
       ),
     );
+  }
+
+  //Function to sign in
+  Future<void> signin() async {
+    String email = myController.emailController.text;
+    String password = myController.passwordController.text;
+
+    User? user = await adminAuth.signIn(email, password);
+    if (user != null) {
+      Navigator.of(context).pushNamed(RoutesManager.dashboard);
+    } else {
+      throw ("Sign in error");
+    }
   }
 }

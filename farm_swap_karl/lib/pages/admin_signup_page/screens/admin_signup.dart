@@ -1,4 +1,5 @@
 /*import "package:farm_swap_karl/authentication/firebase_auth_services.dart";
+
 import "package:farm_swap_karl/pages/admin_signup_page/controllers/admin_signUp_controllers.dart";
 import "package:farm_swap_karl/pages/admin_signup_page/widgets/label_widgets/signup_labels.dart";
 import 'package:farm_swap_karl/pages/admin_signup_page/widgets/sign_up_text_field.dart';
@@ -92,7 +93,10 @@ class _SignUpState extends State<SignUp> {
     }
   }
 }
-*/
+
+
+import 'dart:async';
+import 'dart:html';
 
 import 'package:farm_swap_karl/authentication/firebase_auth_services.dart';
 import 'package:farm_swap_karl/pages/admin_sign_page/widgets/sign_in_txt_field.dart';
@@ -103,6 +107,7 @@ import 'package:farm_swap_karl/pages/admin_signup_page/widgets/label_widgets/sig
 import 'package:farm_swap_karl/pages/admin_signup_page/widgets/sign_up_text_field.dart';
 import 'package:farm_swap_karl/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -127,56 +132,207 @@ THE SIGN UP AND SIGN IN FUNCTIONS */
 
   SignUpToDatabase databaseSave = SignUpToDatabase();
 
+//Date Time Variables
+  DateTime birthdate = DateTime.now();
+  DateTime registerdate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
-          child: Container(
-            width: 500,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                /*TEXT FIELD FOR FIRST NAME*/
-                SignUpTxtField(
-                  label: signUpLabels.firstNameLabel,
-                  textType: false,
-                  signupController: signupControllers.firstNameController,
+/*Row for first naem and lastname */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.firstNameLabel,
+                        textType: false,
+                        signupController: signupControllers.firstNameController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.lastNameLabel,
+                        textType: false,
+                        signupController: signupControllers.lastNameController,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                /*TEXT FIELD FOR LAST NAME */
-                SignUpTxtField(
-                  label: signUpLabels.lastNameLabel,
-                  textType: false,
-                  signupController: signupControllers.lastNameController,
+/*Row for Email and Password */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.emailLabel,
+                        textType: false,
+                        signupController: signupControllers.emailController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.passwordLabel,
+                        textType: false,
+                        signupController: signupControllers.passwordController,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                /*TEXT FIELD FOR EMAIL */
-                SignUpTxtField(
-                  label: signUpLabels.emailLabel,
-                  textType: false,
-                  signupController: signupControllers.emailController,
+/*Row for Birth place and Birthdate */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.birthplace,
+                        textType: false,
+                        signupController:
+                            signupControllers.birthplaceController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _selectDate();
+                        },
+                        child: const Text("Birth Date"),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                /*TEXT FIELD FOR PASSOWRD */
-                SignUpTxtField(
-                  label: signUpLabels.passwordLabel,
-                  textType: true,
-                  signupController: signupControllers.passwordController,
+/*Address and contact number */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.address,
+                        textType: false,
+                        signupController: signupControllers.addressController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.contact,
+                        textType: false,
+                        signupController:
+                            signupControllers.contactnumController,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+/*User role and registratino date */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: SignUpTxtField(
+                        label: signUpLabels.userRole,
+                        textType: false,
+                        signupController: signupControllers.userRole,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _selectDate();
+                        },
+                        child: const Text("Register Date"),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+/*ID Picture Url amd Profile Picture Url */
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 500,
+                      child: IconButton(
+                        onPressed: () {
+                          uploadImage();
+                        },
+                        icon: const Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 100,
+                      child: IconButton(
+                        onPressed: () {
+                          uploadImage2();
+                        },
+                        icon: Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+/*Register butoon */
                 ElevatedButton(
-                  onPressed: Register,
-                  child: const Text("Sign Up"),
+                  onPressed: () {
+                    register();
+                  },
+                  child: const Text("Register"),
                 ),
               ],
             ),
@@ -186,30 +342,221 @@ THE SIGN UP AND SIGN IN FUNCTIONS */
     );
   }
 
-  void Register() async {
+/*Function that  */
+  void register() async {
     /*PASSING THE TEXT VALUES OF THE TEXT BOXES INTO THE PARAMETER VARIABLES */
     String fname = signupControllers.firstNameController.text;
     String lastname = signupControllers.lastNameController.text;
     String email = signupControllers.emailController.text;
     String password = signupControllers.passwordController.text;
+    String userid = FirebaseAuth.instance.currentUser!.uid;
+    String address = signupControllers.addressController.text;
+    String birthplace = signupControllers.birthplaceController.text;
+    String contact = signupControllers.contactnumController.text;
+    String userole = signupControllers.useridController.text;
+    String idUrl = signupControllers.idUrl.text;
+    String profileurl = signupControllers.profileUrl.text;
 
     User? user = await adminAuthentication.signUp(email, password);
     if (user != null) {
       Navigator.of(context).pushNamed(RoutesManager.dashboard);
     }
-/*WE CREATED A USERREGISTER VARIABLE, AND WE PUT THE SIGNUPMOEL INSIE THAT VARIABLE, NOW 
-THE SIGNUP MODEL HAS THE PROPERTIES THAT IS TO BE SAVED IN THE DATABASE. THEREFORE THE PROPERTY VALUES
-TO BE SAVED IS NOW INSIDE THE USER REGISTER VARIABLE */
-    final userRegister = SignUpModel(
+
+    final addAdmin = SignUpModel(
+      userid: userid,
       firstname: fname,
       lastname: lastname,
       email: email,
       password: password,
+      address: address,
+      birthdate: birthdate,
+      birthplace: birthplace,
+      contactnum: contact,
+      userRole: userole,
+      registrationDate: registerdate,
+      profileUrl: profileurl,
+      idUrl: idUrl,
     );
 
-/*USING THE INSTANCE OF THE CLASS OF SIGNUP MODEL WE ACCESS THE CREATE USER METHOD, SINCE
- THE CREATE USER METHOD REQUIRES A PARAMETER OF TYPE SIGNUP MODEL, WE PASS THE USERREGISTER VARIABLE
- BECAUSE THE SAID VARIABLE IS NOW A TYPE OF SIGNUPMODEL SINCE IT CONTAINS THE PROPERTIES OF THE SAID MODEL */
-    databaseSave.createUser(userRegister);
+    await databaseSave.createUser(addAdmin);
+  }
+
+/*Function yo pick an image for the id */
+  Future<void> uploadImage() async {
+    final FileUploadInputElement input = FileUploadInputElement();
+    input.accept = "image/*";
+    input.click();
+
+    final completer = Completer<String>();
+
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      final reader = FileReader();
+
+      reader.onLoadEnd.listen((event) {
+        completer.complete(reader.result as String);
+      });
+      reader.readAsDataUrl(file);
+    });
+
+    final downloadUrl = await completer.future;
+    setState(() {
+      signupControllers.idUrl.text = downloadUrl;
+    });
+  }
+
+/*Function to get image for the profile photo */
+  Future<void> uploadImage2() async {
+    final FileUploadInputElement input = FileUploadInputElement();
+    input.accept = "image/*";
+    input.click();
+
+    final completer = Completer<String>();
+
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      final reader = FileReader();
+
+      reader.onLoadEnd.listen((event) {
+        completer.complete(reader.result as String);
+      });
+      reader.readAsDataUrl(file);
+    });
+
+    final downloadUrl = await completer.future;
+    setState(() {
+      signupControllers.profileUrl.text = downloadUrl;
+    });
+  }
+
+/*Date picker function for birthdate */
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: birthdate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2050),
+    );
+
+    if (pickedDate != null && pickedDate != birthdate) {
+      setState(() {
+        birthdate = pickedDate;
+      });
+    }
+  }
+
+  /*Function to pick date for registrationdate */
+
+  Future<void> _selectDate2() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: registerdate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2050),
+    );
+
+    if (pickedDate != null && pickedDate != registerdate) {
+      setState(() {
+        registerdate = pickedDate;
+      });
+    }
+  }
+}
+*/*/*/
+
+import "package:farm_swap_karl/authentication/firebase_auth_services.dart";
+import "package:farm_swap_karl/pages/admin_signup_page/controllers/admin_signUp_controllers.dart";
+import "package:farm_swap_karl/pages/admin_signup_page/widgets/label_widgets/signup_labels.dart";
+import "package:farm_swap_karl/pages/admin_signup_page/widgets/sign_up_text_field.dart";
+import "package:farm_swap_karl/routes/routes.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+
+class AdminSignUp extends StatefulWidget {
+  const AdminSignUp({super.key});
+
+  @override
+  State<AdminSignUp> createState() => _AdminSignUpState();
+}
+
+class _AdminSignUpState extends State<AdminSignUp> {
+//Object of the Controller clas
+  SignupControllers myControllerr = SignupControllers();
+
+//Object of the label class
+  SignUpTextLabels myLabels = SignUpTextLabels();
+
+//Object of the authentication clas
+  AdminFirebaseAuthentication adminAuth = AdminFirebaseAuthentication();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    myControllerr.emailController.dispose();
+    myControllerr.passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Admin Sign Up"),
+      ),
+      body: Center(
+        child: SizedBox(
+          height: 600,
+          width: 600,
+          child: Column(
+            children: [
+/*Sized box for the email */
+              SizedBox(
+                height: 50,
+                width: 500,
+                child: SignUpTxtField(
+                  label: myLabels.emailLabel,
+                  textType: false,
+                  signupController: myControllerr.emailController,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+/*Sized box for the pasword */
+              SizedBox(
+                height: 50,
+                width: 500,
+                child: SignUpTxtField(
+                  label: myLabels.passwordLabel,
+                  textType: true,
+                  signupController: myControllerr.passwordController,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  registerAdminAuth();
+                },
+                child: const Text("Next"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+//Function for creating authentication
+  Future<void> registerAdminAuth() async {
+    String email = myControllerr.emailController.text;
+    String password = myControllerr.passwordController.text;
+
+    User? user = await adminAuth.signUp(email, password);
+    if (user != null) {
+      Navigator.of(context).pushNamed(RoutesManager.adminSignUp2);
+    } else
+      print("Errorr");
   }
 }

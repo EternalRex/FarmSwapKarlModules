@@ -1,4 +1,9 @@
 import "package:farm_swap_karl/colors/colors.dart";
+import 'package:farm_swap_karl/pages/dashboard_page/data/retrieve_id.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/data/test_data/dsb_pie_graph/piegraph.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/functions/profileId.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/functions/profilename.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/functions/profilephoto.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_admin_account_btn.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_communications_btn.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_dashboard_btn.dart';
@@ -33,6 +38,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  DashboardRetrieveSpecificID id = DashboardRetrieveSpecificID();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -410,25 +417,16 @@ class _DashboardState extends State<Dashboard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         /*PROFILE PICTURE WITH AN IMAGE PICKER SO WE CAN PICK IMAGE */
-                        Stack(
-                          children: [
-                            const CircleAvatar(
-                              radius: 60,
-                              backgroundImage: NetworkImage(
-                                  "https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
-                            ),
-                            /*POSITIONING THE ADD PHOTO ICON INSIDE THE STACK */
-                            Positioned(
-                              width: 100,
-                              bottom: -10,
-                              left: 30,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.add_a_photo),
-                                color: farmSwapSmoothGreen,
-                              ),
-                            ),
-                          ],
+                        FutureBuilder(
+                          future: id.getDocsId(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              String data = snapshot.data!;
+                              return ProfilePhoto(documentId: data);
+                            } else {
+                              return const Text("No data");
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -436,20 +434,28 @@ class _DashboardState extends State<Dashboard> {
                       height: 15,
                     ),
                     /*THE NAME OF THE USER */
-                    DashBoardTxt(
-                      myText: "Erza Scarlet Heartfilia",
-                      myColor: Colors.black,
-                      mySize: 14,
-                      myFont: GoogleFonts.poppins().fontFamily,
-                      myWeight: FontWeight.bold,
+                    FutureBuilder(
+                      future: id.getDocsId(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          String data = snapshot.data!;
+                          return ProfileName(documentId: data);
+                        } else {
+                          return const Text("No data");
+                        }
+                      },
                     ),
                     /*ID OF THE USER */
-                    DashBoardTxt(
-                      myText: "ID: 10101010",
-                      myColor: Colors.black,
-                      mySize: 14,
-                      myFont: GoogleFonts.poppins().fontFamily,
-                      myWeight: FontWeight.bold,
+                    FutureBuilder(
+                      future: id.getDocsId(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          String data = snapshot.data!;
+                          return ProfileId(documentId: data);
+                        } else {
+                          return const Text("No data");
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 30,
@@ -470,4 +476,6 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+
+  //function that access the profile field
 }

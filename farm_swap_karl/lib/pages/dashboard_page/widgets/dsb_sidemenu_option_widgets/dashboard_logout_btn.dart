@@ -1,5 +1,6 @@
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_common_widget/widget_dashboard_txt.dart';
 import 'package:farm_swap_karl/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,6 +23,7 @@ class DashLogoutOptionBtn extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              FirebaseAuth.instance.signOut();
               Navigator.of(context).pushNamed(RoutesManager.introPage);
             },
             child: DashBoardTxt(
