@@ -1,15 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farm_swap_karl/pages/admin_account_detials/controllers/update_controller.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_querry_function.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_address_update.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_birthdate_update.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_birthplace_update.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_contactnum_update.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_lastname_update.dart';
+import 'package:farm_swap_karl/pages/admin_account_detials/functions/update_values/admin_registerdate_update.dart';
 import 'package:farm_swap_karl/pages/admin_account_detials/others/admin_update_labels.dart';
-import 'package:farm_swap_karl/pages/admin_signup_page/widgets/sign_up_text_field.dart';
-import 'package:farm_swap_karl/provider/admin%20details%20provider/update_admin_dropdown_provider.dart';
 import 'package:farm_swap_karl/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../functions/update_fname_function.dart';
+import '../../../provider/admin details provider/update_admin_dropdown_provider.dart';
+import '../../admin_signup_page/widgets/sign_up_text_field.dart';
+import '../functions/update_values/admin_firstname_update.dart';
 
 class AdminDetailsWrapper extends StatefulWidget {
   AdminDetailsWrapper({super.key, required this.documentId});
@@ -100,6 +106,7 @@ flutter pub add intl */
               ),
               ElevatedButton(
                 onPressed: () {
+                  print("${data["User Id"]}");
                   selectFieldToUpdate("${data["User Id"]}");
                 },
                 child: const Text("Update"),
@@ -113,15 +120,12 @@ flutter pub add intl */
     );
   }
 
-  String? selectedValue;
   String? updatedValue;
-  UpdateFirstNameRetriveDocId update = UpdateFirstNameRetriveDocId();
-  AdminUpdateLabels mylabel = AdminUpdateLabels();
-  AdminUpdateControllers myControllers = AdminUpdateControllers();
-
-/*Thi is the method used to update the data it will accept a value from the 
-elevated button above which is the user id of the uer */
-  void selectFieldToUpdate(String passeduid) {
+  String? selectedValue;
+/*First Method sa pag update where ang iyang components naa sa laing files/classes 
+pero ang naka apan kay kinahanglan pa nmo siya e balik sa admin accounts page usa pa mo gana ang
+update sa amin detailspage*/
+  void selectFieldToUpdate(String userid) {
     showDialog(
       context: context,
       builder: (context) {
@@ -129,8 +133,88 @@ elevated button above which is the user id of the uer */
           title: const Text("Choose What to Update"),
           content: DropdownButton<String>(
             value: selectedValue,
-/*A provider that mag carry onta sa text value sa hint pero morag na useless man
-hahaha */
+            hint: Consumer<UpdateAdminDropDownHint>(
+              builder: (context, value, child) {
+                return Text(value.getHint());
+              },
+            ),
+            items: [
+/*first name */
+              DropdownMenuItem(
+                value: "firstname",
+                child: AdminUpdateFirstName(
+                    optionValue: "firstname", userid: userid),
+              ),
+/*last name */
+              DropdownMenuItem(
+                value: "lastname",
+                child: AdminLastNameUpdate(
+                    optionValue: "lastname", userid: userid),
+              ),
+/*birth place */
+              DropdownMenuItem(
+                value: "birthplace",
+                child: AdminBirthPlaceUpdate(
+                    optionValue: "birthplace", userid: userid),
+              ),
+/*address */
+              DropdownMenuItem(
+                value: "addresses",
+                child:
+                    AdminAdressUpdate(optionValue: "addresses", userid: userid),
+              ),
+/*contact number */
+              DropdownMenuItem(
+                value: "contactnumber",
+                child: AdminContactNumUpdate(
+                    optionValue: "contactnumber", userid: userid),
+              ),
+/*birthdate */
+              DropdownMenuItem(
+                value: "birthdate",
+                child: AdminBirthDateUpdate(
+                    optionValue: "birthdate", userid: userid),
+              ),
+/*registerdate */
+              DropdownMenuItem(
+                value: "registerdate",
+                child: AdminRegisterDateUpdate(
+                    optionValue: "registerdate", userid: userid),
+              ),
+            ],
+            onChanged: (value) {
+              selectedValue = value!;
+              Provider.of<UpdateAdminDropDownHint>(context, listen: false)
+                  .setHint(value);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  //String? selectedValue;
+  // String? updatedValue;
+  UpdateFirstNameRetriveDocId update = UpdateFirstNameRetriveDocId();
+  AdminUpdateLabels mylabel = AdminUpdateLabels();
+  AdminUpdateControllers myControllers = AdminUpdateControllers();
+
+/*Second method sa pag update, where ang iyang components naa ra diri na file, og kani gamiton, automatic ma update
+ang details sa user dli na need mo balik sa user account na page*/
+
+/*Thi is the method used to update the data it will accept a value from the 
+elevated button above which is the user id of the uer */
+
+  void selectFieldToUpdate2(String passeduid) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Choose What to Update"),
+          content: DropdownButton<String>(
+            value: selectedValue,
+            /*A provider that mag carry onta sa text value sa hint pero morag na useless man
+            hahaha */
             hint: Consumer<UpdateAdminDropDownHint>(
               builder: (context, value, child) {
                 return Text(value.getHint());
@@ -141,15 +225,15 @@ hahaha */
               DropdownMenuItem(
                 value: "firstname",
                 child: GestureDetector(
-                  child: Text("First Name"),
+                  child: const Text("First Name"),
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
                           title: const Text("Enter first name"),
-/*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
-details nga para update */
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                          details nga para update */
                           content: SignUpTxtField(
                             label: mylabel.fnameLabel,
                             signupController: myControllers.fnameController,
@@ -158,12 +242,12 @@ details nga para update */
                           actions: [
                             ElevatedButton(
                               onPressed: () {
-/*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
+                                /*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
                                 updatedValue =
                                     myControllers.fnameController.text;
-/*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
-nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
-                                updateStringField(updatedValue, passeduid);
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateFnameField(updatedValue, passeduid);
                               },
                               child: const Text("Update"),
                             ),
@@ -175,46 +259,253 @@ nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
                 ),
               ),
 /*Item for last name */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "lastname",
-                child: Text("Last Name"),
-              ),
-/*Item for email name */
-              const DropdownMenuItem(
-                value: "email",
-                child: Text("Email"),
+                child: GestureDetector(
+                  child: const Text("Last Name"),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter last name"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SignUpTxtField(
+                            label: mylabel.fnameLabel,
+                            signupController: myControllers.fnameController,
+                            textType: false,
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
+                                updatedValue =
+                                    myControllers.fnameController.text;
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateLastNameField(updatedValue, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
 /*Item for birthdate name */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "birthdate",
-                child: Text("Birthdate"),
+                child: GestureDetector(
+                  child: const Text("Birthdate"),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter Birthdate"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SizedBox(
+                            height: 100,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _selectDate(passeduid);
+                                    },
+                                    child: const Text("Select Date"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateBirthdate(registerdate, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
 /*Item for birth place */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "birthplace",
-                child: Text("Birth Place"),
+                child: GestureDetector(
+                  child: const Text("Birth Place"),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter Birth Place"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SignUpTxtField(
+                            label: mylabel.fnameLabel,
+                            signupController: myControllers.fnameController,
+                            textType: false,
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
+                                updatedValue =
+                                    myControllers.fnameController.text;
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateBirthPlaceField(updatedValue, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
 /*Item for address */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "addresses",
-                child: Text("Addresses"),
+                child: GestureDetector(
+                  child: const Text("Addresses"),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter Address"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SignUpTxtField(
+                            label: mylabel.fnameLabel,
+                            signupController: myControllers.fnameController,
+                            textType: false,
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
+                                updatedValue =
+                                    myControllers.fnameController.text;
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateAddressField(updatedValue, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
 /*Item for contact number */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "contactnum",
-                child: Text("Contact Number"),
+                child: GestureDetector(
+                  child: const Text("Contact Number"),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter Contact Number"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SignUpTxtField(
+                            label: mylabel.fnameLabel,
+                            signupController: myControllers.fnameController,
+                            textType: false,
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Atong gikuha ang value sa atong text field nya ato gi store ani na variable */
+                                updatedValue =
+                                    myControllers.fnameController.text;
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateContactNumberField(
+                                    updatedValue, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
 /*Item for registration date */
-              const DropdownMenuItem(
+              DropdownMenuItem(
                 value: "regisrationdate",
-                child: Text("Registration Date"),
+                child: GestureDetector(
+                  child: const Text("Registration Date"),
+                  onTap: (() {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Enter Birthdate"),
+                          /*So para dili kalas og page, sa pop up na dialog box nalang ta mag enter sa 
+                        details nga para update */
+                          content: SizedBox(
+                            height: 100,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _selectDate(passeduid);
+                                    },
+                                    child: const Text("Select Date"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                /*Ny atong gitawag diri sa onpressed ang method na updateString field, naa ni diras ubos
+                                nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
+                                updateBirthdate(registerdate, passeduid);
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }),
+                ),
               ),
             ],
             onChanged: (value) {
               selectedValue = value;
+              print(value);
+              print(selectedValue);
               Provider.of<UpdateAdminDropDownHint>(context, listen: false)
                   .setHint(value!);
-              print("current value" + selectedValue.toString());
             },
           ),
         );
@@ -222,21 +513,104 @@ nya mo dawat og duha ka value, ang new data nga ato e update, og ang userid */
     );
   }
 
+//Variables for Date and Time
+  DateTime registerdate = DateTime.now();
+  DateTime birthdate = DateTime.now();
+
 /*So kani na method is para ni siya sa pag update sa mga fields nga of string value,
 mo dawat nig 2 ka value, isa para sa newdata, ikaduha ang userid */
-  Future<void> updateStringField(String? updatedata, String userid) async {
+  Future<void> updateFnameField(String? updatedata, String userid) async {
     /*Atong gi call ning getupdatedocid na function from the class of  UpdateFirstNameRetriveDocId, actually
- naka name ranig firstname pero pwde rani gamiton na class for all the string updates, tapos kaning
- iyang userid kay iya ning e process para ma pull out to ninyang documentid nga naa ani na userid*/
+    naka name ranig firstname pero pwde rani gamiton na class for all the string updates, tapos kaning
+    iyang userid kay iya ning e process para ma pull out to ninyang documentid nga naa ani na userid*/
     await update.getUpdateDocId(userid);
 
     /*Tapo didto gihapon sa  UpdateFirstNameRetriveDocId na clas ang kanang function na atong bag e gi call
- mo return nag string value which is ang documentid nga iyang gi butang sa variable nga mydocid*/
+    mo return nag string value which is ang documentid nga iyang gi butang sa variable nga mydocid*/
     final documentref =
         FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+
     final updateFiled = {"First Name": updatedata};
     /*Ny after mag update na dayn ang everything */
     await documentref.update(updateFiled);
     Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+/*Function for uploading last name */
+  Future<void> updateLastNameField(String? updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Last Name": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+/*Function for uploading birthplace */
+  Future<void> updateBirthPlaceField(String? updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Birth Place": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+  /*Function for uploading address */
+  Future<void> updateAddressField(String? updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Address": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+  /*Function for uploading contact number */
+  Future<void> updateContactNumberField(
+      String? updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Contact Number": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+/*Function for updating date name */
+  Future<void> updateBirthdate(DateTime updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Birth Date": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+  /*Function for updating date name */
+  Future<void> updateRegistrationDate(
+      DateTime updatedata, String userid) async {
+    await update.getUpdateDocId(userid);
+    final documentref =
+        FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
+    final updateFiled = {"Registration Date": updatedata};
+    await documentref.update(updateFiled);
+    Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
+  }
+
+/*Function for selecting a date */
+  Future<void> _selectDate(String userid) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: registerdate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2050),
+    );
+
+    if (pickedDate != null && pickedDate != registerdate) {
+      setState(() {
+        registerdate = pickedDate;
+      });
+    }
   }
 }
