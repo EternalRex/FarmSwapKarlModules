@@ -10,6 +10,9 @@ import "package:flutter_svg/flutter_svg.dart";
 import "package:google_fonts/google_fonts.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import "../../admin_logs/database/admin_logs_insert_data.dart";
+import "../../dashboard_page/functions/update_online_status.dart";
+
 class SignInAdmin extends StatefulWidget {
   const SignInAdmin({super.key});
 
@@ -30,6 +33,9 @@ class _SignInAdminState extends State<SignInAdmin> {
 
   //Object of the authentication class
   AdminFirebaseAuthentication adminAuth = AdminFirebaseAuthentication();
+
+  //Object for the admin logs model used to save admin logs to db
+  AdminLogsInsertDataDb adminLogs = AdminLogsInsertDataDb();
 
   @override
   Widget build(BuildContext context) {
@@ -227,8 +233,7 @@ class _SignInAdminState extends State<SignInAdmin> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(RoutesManager.adminSignUp);
+                        Navigator.of(context).pushNamed(RoutesManager.adminSignUp);
                       },
                       child: Text(
                         "Sign Up Now!",
@@ -301,13 +306,24 @@ class _SignInAdminState extends State<SignInAdmin> {
     );
   }
 
+  UpdateOnlineStatus onlineStatus = UpdateOnlineStatus();
+  bool active = true;
+
   //Function to sign in
   Future<void> signin() async {
     String email = myController.emailController.text;
     String password = myController.passwordController.text;
 
+    /*So mag kuha ni siya sa admin logs nya iyang description kay ni login */
+    adminLogs.createAdminLogs(email, "", "$email account login", DateTime.now());
+
     User? user = await adminAuth.signIn(email, password);
     if (user != null) {
+      /*Nag create lang kog userid diri na variable tas akong gipasa diras ubos
+      na method para ma update ang login status into true */
+      String userid = FirebaseAuth.instance.currentUser!.uid;
+      onlineStatus.updateOnlineStatus(userid, active);
+
       Navigator.of(context).pushNamed(RoutesManager.dashboard);
     } else {
       throw ("Sign in error");

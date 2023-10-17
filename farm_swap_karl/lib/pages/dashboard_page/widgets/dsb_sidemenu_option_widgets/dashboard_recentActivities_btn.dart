@@ -1,5 +1,6 @@
 import 'package:farm_swap_karl/colors/colors.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_common_widget/widget_dashboard_txt.dart';
+import 'package:farm_swap_karl/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +38,9 @@ class _AdminRecentActivitiesBtnState extends State<AdminRecentActivitiesBtn> {
       ),
       child: Center(
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(RoutesManager.overalladminlogs);
+          },
           child: DashBoardTxt(
             myText: "Activities",
             myColor: Colors.white,

@@ -55,66 +55,66 @@ class _AdminAccount extends State<AdminAccount> {
                   ],
                 ),
                 /*A COLUMN THAT WILL HOLD THE NAVIGATIONS OPTIONS */
-                child: const Column(
+                child: Column(
                   children: [
                     /*THE TITLE AND LOGO IN THE PAGE OPTIONS */
-                    DashPageOptionsTitle(),
+                    const DashPageOptionsTitle(),
                     /*30 PXLS SPACE BETWEEN*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL HOLD THE DASHBOARD LOGO AND THE DASHBOARD LABEL */
-                    DashBoardOptionsBtn(),
+                    const DashBoardOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE  ADMIN ACCOUNT LOGO AND LABEL*/
-                    DashAdminAccountOptionsBtn(),
+                    const DashAdminAccountOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE USER ACCOUNTS LOGO AND LABEL */
-                    DashUserAccountOptionsBtn(),
+                    const DashUserAccountOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE LISTINGS ICON AND LABEL */
-                    DashListingsOptionsBtn(),
+                    const DashListingsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE TRANSACTIONS ICON AND LABEL */
-                    DashTransactionsOptionsBtn(),
+                    const DashTransactionsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE REPORTS ICON AND LABEL */
-                    DashReportsOptionsBtn(),
+                    const DashReportsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE DISPUTE ICON AND LABEL */
-                    DashDisputeOptionsBtn(),
+                    const DashDisputeOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE WALLET ICON AND LABEL */
-                    DashWalletOptions(),
+                    const DashWalletOptions(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE COMMUNICATIONS ICON AND LABEL */
-                    DashCommunicationOptionsBtn(),
+                    const DashCommunicationOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     /*THIS ROW WILL CONTAIN THE lOGOUT ICON AND LABEL */

@@ -4,6 +4,7 @@ import 'package:farm_swap_karl/pages/dashboard_page/data/test_data/dsb_pie_graph
 import 'package:farm_swap_karl/pages/dashboard_page/functions/profileId.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/functions/profilename.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/functions/profilephoto.dart';
+import 'package:farm_swap_karl/pages/dashboard_page/functions/update_online_status.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_admin_account_btn.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_communications_btn.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_sidemenu_option_widgets/dashboard_dashboard_btn.dart';
@@ -26,6 +27,8 @@ import 'package:farm_swap_karl/pages/dashboard_page/widgets/dsb_common_widget/wi
 import 'package:farm_swap_karl/pages/dashboard_page/data/test_data/dsb_line_graph/pricePoint.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/data/test_data/dsb_line_graph/pricePoint2.dart';
 import 'package:farm_swap_karl/pages/dashboard_page/data/test_data/dsb_line_graph/pricePoint3.dart';
+import 'package:farm_swap_karl/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import 'package:flutter/cupertino.dart';
@@ -39,6 +42,10 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   DashboardRetrieveSpecificID id = DashboardRetrieveSpecificID();
+  UpdateOnlineStatus onlineStatus = UpdateOnlineStatus();
+
+  String userid = FirebaseAuth.instance.currentUser!.uid;
+  bool active = true;
 
   @override
   Widget build(BuildContext context) {
@@ -69,66 +76,66 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
                 /*A COLUMN THAT WILL HOLD THE NAVIGATIONS OPTIONS */
-                child: const Column(
+                child: Column(
                   children: [
                     /*THE TITLE AND LOGO IN THE PAGE OPTIONS */
-                    DashPageOptionsTitle(),
+                    const DashPageOptionsTitle(),
                     /*30 PXLS SPACE BETWEEN*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL HOLD THE DASHBOARD LOGO AND THE DASHBOARD LABEL */
-                    DashBoardOptionsBtn(),
+                    const DashBoardOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE  ADMIN ACCOUNT LOGO AND LABEL*/
-                    DashAdminAccountOptionsBtn(),
+                    const DashAdminAccountOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE USER ACCOUNTS LOGO AND LABEL */
-                    DashUserAccountOptionsBtn(),
+                    const DashUserAccountOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE LISTINGS ICON AND LABEL */
-                    DashListingsOptionsBtn(),
+                    const DashListingsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE TRANSACTIONS ICON AND LABEL */
-                    DashTransactionsOptionsBtn(),
+                    const DashTransactionsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE REPORTS ICON AND LABEL */
-                    DashReportsOptionsBtn(),
+                    const DashReportsOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE DISPUTE ICON AND LABEL */
-                    DashDisputeOptionsBtn(),
+                    const DashDisputeOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE WALLET ICON AND LABEL */
-                    DashWalletOptions(),
+                    const DashWalletOptions(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     /*THIS ROW WILL CONTAIN THE COMMUNICATIONS ICON AND LABEL */
-                    DashCommunicationOptionsBtn(),
+                    const DashCommunicationOptionsBtn(),
                     /*30 SPACE BEFORE NEXT OPTION*/
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     /*THIS ROW WILL CONTAIN THE lOGOUT ICON AND LABEL */
@@ -392,7 +399,9 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           /*MESSAGE BUTTON */
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(RoutesManager.adminchat);
+                            },
                             icon: Icon(
                               CupertinoIcons.envelope,
                               color: farmSwapTitlegreen,

@@ -543,6 +543,7 @@ mo dawat nig 2 ka value, isa para sa newdata, ikaduha ang userid */
         FirebaseFirestore.instance.collection('Users').doc(update.mydocid);
     final updateFiled = {"Last Name": updatedata};
     await documentref.update(updateFiled);
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushNamed(RoutesManager.displayadmindetails);
   }
 
